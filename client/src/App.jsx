@@ -1,11 +1,18 @@
 import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+// Import pages
 import Landing from "./pages/Landing";
 
 const App = () => {
   return (
-    <div>
-      <Landing />
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<div>Dashboard</div>} />
+        <Route path='/register' element={<div>Register</div>} />
+        <Route path='/landing' element={<Landing />} />
+        <Route path='*' element={<div>Error</div>} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
