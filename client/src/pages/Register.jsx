@@ -16,6 +16,10 @@ const Register = () => {
   const [values, setValues] = useState(initialState);
   // Global state and useNavigate
 
+  const toggleMember = () => {
+    setValues({ ...values, isMember: !values.isMember });
+  };
+
   const handleChange = (e) => {
     console.log(e.target);
   };
@@ -28,19 +32,20 @@ const Register = () => {
     <Wrapper className='full-page'>
       <form className='form' onSubmit={handleSubmit}>
         <Logo />
-        <h3>Login</h3>
+        <h3>{values.isMember ? "Login" : "Register"}</h3>
         {/* Show the Alert if showAlert is true */}
         {values.showAlert && <Alert />}
 
-        {/* name input */}
-        <FormRow
-          type='text'
-          name='name'
-          value={values.name}
-          handleChange={handleChange}
-        />
-
-        {/* email input */}
+        {/* Name input is part of Login form, hide in Register form  */}
+        {!values.isMember && (
+          <FormRow
+            type='text'
+            name='name'
+            value={values.name}
+            handleChange={handleChange}
+          />
+        )}
+        {/* Email input */}
         <FormRow
           type='email'
           name='email'
@@ -48,7 +53,7 @@ const Register = () => {
           handleChange={handleChange}
         />
 
-        {/* password input */}
+        {/* Password input */}
         <FormRow
           type='password'
           name='password'
@@ -59,6 +64,12 @@ const Register = () => {
         <button type='submit' className='btn btn-block'>
           Submit
         </button>
+        <p>
+          {values.isMember ? "Not a member yet" : "Already a member?"}
+          <button type='button' onClick={toggleMember} className='member-btn'>
+            {values.isMember ? "Register" : "Login"}
+          </button>
+        </p>
       </form>
     </Wrapper>
   );
