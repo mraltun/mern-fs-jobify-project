@@ -1,5 +1,6 @@
 import React from "react";
 
+// Destructure them from props. We need labelText so we can modify it.
 const FormRow = ({ type, name, value, handleChange, labelText }) => {
   return (
     <div className='form-row'>
