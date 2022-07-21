@@ -1,7 +1,7 @@
 import React from "react";
 // Import images
 import main from "../assets/images/main.svg";
-// Styled components
+// Styles
 import Wrapper from "../assets/wrappers/LandingPage";
 import { Logo } from "../components";
 
