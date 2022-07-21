@@ -1,0 +1,3 @@
+MONGO_URL='mongodb+srv://mraltun:a7oVfaVs1KvoSYID@cluster0.btiys.mongodb.net/privatelessonsdb'
+JWT_SECRET=MrAltunSecret
+JWT_LIFETIME=1d
