@@ -1,4 +1,6 @@
-import React, { useState, useReducer, useContext, createContext } from "react";
+import React, { useReducer, useContext, createContext } from "react";
+// Reducer function
+import reducer from "./reducer";
 
 // Initial state for the state
 const initialState = {
@@ -11,14 +13,15 @@ const initialState = {
 const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
-  const [state, setState] = useState(initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
+    // Spread the values inside state object
     <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
   );
 };
 
-// Make a hook to avoid importing useContex and AppContext to every component to have access to value props. Needs to start with "use" to useContext inside.
+// Make a hook to avoid importing useContext and AppContext to every component to have access to value props. Needs to start with "use" to useContext inside.
 export const useAppContext = () => {
   return useContext(AppContext);
 };
