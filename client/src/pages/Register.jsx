@@ -14,20 +14,29 @@ const initialState = {
 };
 
 const Register = () => {
+  // State
   const [values, setValues] = useState(initialState);
   // Global state from context
-  const { isLoading, showAlert } = useAppContext();
+  const { isLoading, showAlert, displayAlert } = useAppContext();
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
 
   const handleChange = (e) => {
-    console.log(e.target);
+    // Make property name same as the input's name with dynamic object key (email: "user@email.address")
+    setValues({ ...values, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Destruct values from the state
+    const { name, email, password, isMember } = values;
+    // Check if email and password is missing. Check the name field only if it's not a member.
+    if (!email || !password || (!isMember && !name)) {
+      displayAlert();
+      return;
+    }
   };
 
   return (

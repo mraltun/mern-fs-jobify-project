@@ -2,7 +2,7 @@ import React, { useReducer, useContext, createContext } from "react";
 // Reducer function
 import reducer from "./reducer";
 // Import action types
-import { DISPLAY_ALERT } from "./actions";
+import { DISPLAY_ALERT, CLEAR_ALERT } from "./actions";
 
 // Initial states for the state
 const initialState = {
@@ -19,6 +19,14 @@ const AppProvider = ({ children }) => {
 
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT });
+    clearAlert();
+  };
+
+  // Clear the alert text after 2 seconds
+  const clearAlert = () => {
+    setTimeout(() => {
+      dispatch({ type: CLEAR_ALERT });
+    }, 2000);
   };
 
   return (
