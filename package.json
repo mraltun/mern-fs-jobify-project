@@ -1,0 +1,27 @@
+{
+  "name": "mern-fs-jobify-project",
+  "version": "1.0.0",
+  "description": "MERN Stack Course 2022 - MongoDB, Express, React and NodeJS by John Smilga.\r All the notes insde the codebase are made by me.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mraltun/mern-fs-jobify-project.git"
+  },
+  "keywords": [],
+  "author": "Murat Altun",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mraltun/mern-fs-jobify-project/issues"
+  },
+  "homepage": "https://github.com/mraltun/mern-fs-jobify-project#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  },
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
