@@ -1,8 +1,10 @@
 import React, { useReducer, useContext, createContext } from "react";
 // Reducer function
 import reducer from "./reducer";
+// Import action types
+import { DISPLAY_ALERT } from "./actions";
 
-// Initial state for the state
+// Initial states for the state
 const initialState = {
   isLoading: false,
   showAlert: false,
@@ -15,9 +17,15 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  const displayAlert = () => {
+    dispatch({ type: DISPLAY_ALERT });
+  };
+
   return (
     // Spread the values inside state object
-    <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
+    <AppContext.Provider value={{ ...state, displayAlert }}>
+      {children}
+    </AppContext.Provider>
   );
 };
 
