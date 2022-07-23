@@ -12,8 +12,10 @@ import jobsRouter from "./routes/jobsRoutes.js";
 // Middlewares. Adding file extension ".js" at the end is required for ES6 imports
 import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
-// Built-in middleware for JSON that we pass in post requests in the controllers
+// Built-in middleware for JSON that we pass in post requests in the controllers.
 app.use(express.json());
+// Express async errors for removing try/catch in our async functions
+import "express-async-errors";
 
 // Dummy home route
 app.get("/", (req, res) => {

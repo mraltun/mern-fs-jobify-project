@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
+// Validator for string validation and sanitation
 import validator from "validator";
 
-// The structure for the User
+// The structure for the User model
 const UserSchema = new mongoose.Schema({
   name: {
     type: String,

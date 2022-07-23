@@ -5,6 +5,7 @@ const router = express.Router();
 import { register, login, updateUser } from "../controllers/authController.js";
 
 // Setting the routes here, we will import them in server.js
+// router.post("/register", register);
 router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/updateUser").patch(updateUser);
