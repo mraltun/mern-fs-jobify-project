@@ -19,6 +19,13 @@ const errorHandlerMiddleware = (err, req, res, next) => {
       .join(", ");
   }
 
+  // Unique field error. The field has to be unique (email for now)
+  if (err.code && err.code === 11000) {
+    defaultError.statusCode = StatusCodes.BAD_REQUEST;
+    // Get the field name from key (email) of the keyValue property
+    defaultError.msg = `${Object.keys(err.keyValue)} field has to be unique`;
+  }
+
   res.status(defaultError.statusCode).json({ msg: defaultError.msg });
 };
 
