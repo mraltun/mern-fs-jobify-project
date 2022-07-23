@@ -3,10 +3,10 @@ import { StatusCodes } from "http-status-codes";
 
 // Catch errors and show them as internal errors. We need err argument for the error, next for the moving to next middleware.
 const errorHandlerMiddleware = (err, req, res, next) => {
-  // Setup a default error object
+  // When there is no err.message or err.statusCode from throwing error, show default values
   const defaultError = {
-    statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-    msg: "Something went wrong, try again later",
+    statusCode: err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR,
+    msg: err.message || "Something went wrong, try again later",
   };
 
   // Missing fields error. Get the name of the error from err object, update status code and the message.
