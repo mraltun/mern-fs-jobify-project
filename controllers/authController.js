@@ -19,7 +19,7 @@ const register = async (req, res) => {
     throw new BadRequestError("Email already in use");
   }
   // Create user object from User model with the data from req.body object. Return the user object in json.
-  const user = await User.create(name, email, password);
+  const user = await User.create({ name, email, password });
   res.status(StatusCodes.CREATED).json({ user });
 };
 
