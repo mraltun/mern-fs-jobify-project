@@ -18,9 +18,19 @@ const register = async (req, res) => {
   if (userAlreadyExists) {
     throw new BadRequestError("Email already in use");
   }
-  // Create user object from User model with the data from req.body object. Return the user object in json.
+  // Create user object from User model with the data from req.body object and create token from custom method. Return the user object and jwt token.
   const user = await User.create({ name, email, password });
-  res.status(StatusCodes.CREATED).json({ user });
+  const token = user.createJWT();
+  res.status(StatusCodes.CREATED).json({
+    // We removed password from output with select in schema but it doesn't work with create method above. We pass everything else here.
+    user: {
+      email: user.email,
+      lastName: user.lastName,
+      location: user.location,
+      name: user.name,
+    },
+    token,
+  });
 };
 
 const login = async (req, res) => {

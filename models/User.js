@@ -1,7 +1,10 @@
 import mongoose from "mongoose";
-// Validator for string validation and sanitation
+// Validator package for string validation and sanitation
 import validator from "validator";
+// Import bcrypt for the hash password
 import bcrypt from "bcryptjs";
+// Import JWT
+import jwt from "jsonwebtoken";
 
 // The structure for the User model
 const UserSchema = new mongoose.Schema({
@@ -25,6 +28,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide password"],
     minLength: 6,
+    select: false,
   },
   lastName: {
     type: String,
@@ -45,6 +49,14 @@ UserSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
+
+// Custom document instance method
+UserSchema.methods.createJWT = function () {
+  // Put in payload the  "_id" field from MongoDB which added automatically for each user as unique id. Get the secret key and token duration from .env file
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+  });
+};
 
 // Setup the User model from schema above and export it
 export default mongoose.model("User", UserSchema);
