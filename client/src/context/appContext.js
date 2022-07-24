@@ -11,16 +11,20 @@ import {
 } from "./actions";
 import axios from "axios";
 
-// Initial states for the state
+const user = localStorage.getItem("user");
+const token = localStorage.getItem("token");
+const userLocation = localStorage.getItem("location");
+
+// Initial states for the global state
 const initialState = {
   isLoading: false,
   showAlert: false,
   alertText: "",
   alertType: "",
-  user: null,
-  token: null,
-  userLocation: "",
-  jobLocation: "",
+  user: user ? JSON.parse(user) : null,
+  token: token,
+  userLocation: userLocation || "",
+  jobLocation: userLocation || "",
 };
 
 const AppContext = createContext();
@@ -40,6 +44,20 @@ const AppProvider = ({ children }) => {
     }, 2000);
   };
 
+  // Add to local storage
+  const addUserToLocalStorage = ({ user, token, location }) => {
+    localStorage.setItem("user", JSON.stringify(user));
+    localStorage.setItem("token", token);
+    localStorage.setItem("location", location);
+  };
+
+  // Remove from local storage
+  const removeUserFromLocalStorage = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    localStorage.removeItem("location");
+  };
+
   // Register user
   const registerUser = async (currentUser) => {
     // Make iLoading is true in the reducer.
@@ -53,6 +71,7 @@ const AppProvider = ({ children }) => {
         payload: { user, token, location },
       });
       // Local storage later
+      addUserToLocalStorage({ user, token, location });
     } catch (error) {
       dispatch({
         type: REGISTER_USER_ERROR,

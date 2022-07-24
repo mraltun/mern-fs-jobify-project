@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Logo, FormRow, Alert } from "../components";
 // Styles
 import Wrapper from "../assets/wrappers/RegisterPage";
 // Context
 import { useAppContext } from "../context/appContext";
 
-// Single object for multiple states
+// Single object for multiple states in local state.
 const initialState = {
   name: "",
   email: "",
@@ -14,10 +15,13 @@ const initialState = {
 };
 
 const Register = () => {
-  // State
+  // Navigate for redirects
+  const navigate = useNavigate();
+  // Local state that hold the multiple stats as an object
   const [values, setValues] = useState(initialState);
-  // Global state from context
-  const { isLoading, showAlert, displayAlert, registerUser } = useAppContext();
+  // Global States and Context
+  const { user, isLoading, showAlert, displayAlert, registerUser } =
+    useAppContext();
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -45,6 +49,15 @@ const Register = () => {
       registerUser(currentUser);
     }
   };
+
+  // Programmatically navigate to Dashboard at "/" after user register.
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+    }
+  }, [user, navigate]);
 
   return (
     <Wrapper className='full-page'>
