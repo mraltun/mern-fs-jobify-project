@@ -1,5 +1,6 @@
 // Using ES6 imports & exports instead require from CommonJS. Add ("type": "module") to package.json or change file extensions to ".mjs"
 import express from "express";
+
 const app = express();
 // Dotenv for the loading environment variables from a.env file into "process.env"
 import dotenv from "dotenv";
@@ -14,11 +15,12 @@ import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 // Built-in middleware for JSON that we pass in post requests in the controllers.
 app.use(express.json());
+
 // Express async errors for removing try/catch in our async functions
 import "express-async-errors";
 
 // Dummy home route
-app.get("/", (req, res) => {
+app.get("/api/v1", (req, res) => {
   res.send("Welcome!");
 });
 
