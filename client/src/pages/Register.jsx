@@ -20,7 +20,7 @@ const Register = () => {
   // Local state that hold the multiple stats as an object
   const [values, setValues] = useState(initialState);
   // Global States and Context
-  const { user, isLoading, showAlert, displayAlert, registerUser } =
+  const { user, isLoading, showAlert, displayAlert, registerUser, loginUser } =
     useAppContext();
 
   const toggleMember = () => {
@@ -44,7 +44,7 @@ const Register = () => {
     // Create new object to use it in registerUser, check if they are already a member
     const currentUser = { name, email, password };
     if (isMember) {
-      console.log("Already a member");
+      loginUser(currentUser);
     } else {
       registerUser(currentUser);
     }
