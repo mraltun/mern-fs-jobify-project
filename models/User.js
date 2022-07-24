@@ -58,5 +58,12 @@ UserSchema.methods.createJWT = function () {
   });
 };
 
+// Custom document instance method
+UserSchema.methods.comparePassword = async function (candidatePassword) {
+  // Compare the passwords, return true if they are matched.
+  const isMatch = await bcrypt.compare(candidatePassword, this.password);
+  return isMatch;
+};
+
 // Setup the User model from schema above and export it
 export default mongoose.model("User", UserSchema);
