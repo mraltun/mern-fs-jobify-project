@@ -17,7 +17,7 @@ const Register = () => {
   // State
   const [values, setValues] = useState(initialState);
   // Global state from context
-  const { isLoading, showAlert, displayAlert } = useAppContext();
+  const { isLoading, showAlert, displayAlert, registerUser } = useAppContext();
 
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
@@ -36,6 +36,13 @@ const Register = () => {
     if (!email || !password || (!isMember && !name)) {
       displayAlert();
       return;
+    }
+    // Create new object to use it in registerUser, check if they are already a member
+    const currentUser = { name, email, password };
+    if (isMember) {
+      console.log("Already a member");
+    } else {
+      registerUser(currentUser);
     }
   };
 
@@ -71,8 +78,8 @@ const Register = () => {
           value={values.password}
           handleChange={handleChange}
         />
-
-        <button type='submit' className='btn btn-block'>
+        {/* Disable the button while loading */}
+        <button type='submit' className='btn btn-block' disabled={isLoading}>
           Submit
         </button>
         <p>
