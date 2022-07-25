@@ -20,7 +20,7 @@ const Register = () => {
   // Local state that hold the multiple stats as an object
   const [values, setValues] = useState(initialState);
   // Global States and Context
-  const { user, isLoading, showAlert, displayAlert, registerUser, loginUser } =
+  const { user, isLoading, showAlert, displayAlert, setupUser } =
     useAppContext();
 
   const toggleMember = () => {
@@ -44,9 +44,17 @@ const Register = () => {
     // Create new object to use it in registerUser, check if they are already a member
     const currentUser = { name, email, password };
     if (isMember) {
-      loginUser(currentUser);
+      setupUser({
+        currentUser,
+        endPoint: "login",
+        alertText: "Login Successful! Redirecting...",
+      });
     } else {
-      registerUser(currentUser);
+      setupUser({
+        currentUser,
+        endPoint: "register",
+        alertText: "Register Successful! Redirecting...",
+      });
     }
   };
 
