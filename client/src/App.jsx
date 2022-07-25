@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // Import pages
-import { Register, Landing, Error } from "./pages";
+import { Register, Landing, Error, ProtectedRoute } from "./pages";
 // Import dashboard pages
 import {
   AddJob,
@@ -15,7 +15,16 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<SharedLayout />}>
+        {/* Check if the user is logged in to show SharedLayout */}
+        <Route
+          path='/'
+          element={
+            <ProtectedRoute>
+              <SharedLayout />
+            </ProtectedRoute>
+          }
+        >
+          {/* Routes for  "/dashboard", the index is Stats page */}
           <Route index element={<Stats />} />
           <Route path='all-jobs' element={<AllJobs />}></Route>
           <Route path='add-job' element={<AddJob />}></Route>

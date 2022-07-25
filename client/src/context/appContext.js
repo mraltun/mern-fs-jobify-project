@@ -89,7 +89,7 @@ const AppProvider = ({ children }) => {
   );
 };
 
-// Make a hook to avoid importing useContext and AppContext to every component to have access to value props. Needs to start with "use" to useContext inside.
+// Make a hook to avoid importing useContext and AppContext to every component to have access to value props. Needs to start with "use" to useContext hook inside.
 export const useAppContext = () => {
   return useContext(AppContext);
 };
