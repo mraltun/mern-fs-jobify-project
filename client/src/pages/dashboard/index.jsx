@@ -1,4 +1,5 @@
-// Import and export all pages inside "/dashboard"
+// Import and export every page in this file. Then import all those pages in single line as named imports from this folder.
+
 import AddJob from "./AddJob";
 import AllJobs from "./AllJobs";
 import Profile from "./Profile";
