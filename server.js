@@ -12,6 +12,8 @@ import jobsRouter from "./routes/jobsRoutes.js";
 // Middlewares. Adding file extension ".js" at the end is required for ES6 imports
 import notFoundMiddleware from "./middleware/not-found.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
+// Authenticate middleware
+import authenticateUser from "./middleware/auth.js";
 // Express async errors for removing try/catch in our async functions
 import "express-async-errors";
 // HTTP request logger middleware
@@ -30,7 +32,8 @@ app.get("/api/v1", (req, res) => {
 
 // Routes from AuthRoutes
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/jobs", jobsRouter);
+// We do it here since we need user to authenticate for all the routes. If we needed only certain routes then we'd do it inside jobsRouter
+app.use("/api/v1/jobs", authenticateUser, jobsRouter);
 
 // Show error for the routes that doesn't match with defined routes above
 app.use(notFoundMiddleware);
