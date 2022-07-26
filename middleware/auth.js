@@ -1,6 +1,12 @@
+import { UnAuthenticatedError } from "../errors/index.js";
+
 // Authenticate user then next it to controller
 const auth = async (req, res, next) => {
-  console.log("authenticate user");
+  const authHeader = req.headers.authentication;
+
+  if (!authHeader) {
+    throw new UnAuthenticatedError("Authentication invalid");
+  }
   next();
 };
 
