@@ -93,10 +93,21 @@ const AppProvider = ({ children }) => {
     removeUserFromLocalStorage();
   };
 
+  const updateUser = async (currentUser) => {
+    console.log(currentUser);
+  };
+
   return (
     // Spread the values inside of state object.
     <AppContext.Provider
-      value={{ ...state, displayAlert, setupUser, toggleSidebar, logoutUser }}
+      value={{
+        ...state,
+        displayAlert,
+        setupUser,
+        toggleSidebar,
+        logoutUser,
+        updateUser,
+      }}
     >
       {children}
     </AppContext.Provider>
