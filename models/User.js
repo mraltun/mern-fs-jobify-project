@@ -46,6 +46,8 @@ const UserSchema = new mongoose.Schema({
 
 // Pre save hook to hash passwords before adding them to DB
 UserSchema.pre("save", async function () {
+  // If we are not modifying password field, then we don't need to hash the password second time!
+  if (!this.isModified("password")) return;
   const salt = await bcrypt.genSalt(10);
   this.password = await bcrypt.hash(this.password, salt);
 });
