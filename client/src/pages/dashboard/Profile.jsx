@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FormRow, Alert } from "../../components";
 import { useAppContext } from "../../context/appContext";
+// Import styles
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 
 const Profile = () => {
@@ -20,6 +21,7 @@ const Profile = () => {
       displayAlert();
       return;
     }
+    // Update the user with new values
     updateUser({ name, email, lastName, location });
   };
 

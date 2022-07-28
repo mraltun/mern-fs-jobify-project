@@ -1,4 +1,6 @@
 import React, { useReducer, useContext, createContext } from "react";
+// Axios
+import axios from "axios";
 // Reducer function
 import reducer from "./reducer";
 // Import action types
@@ -11,7 +13,6 @@ import {
   TOGGLE_SIDEBAR,
   LOGOUT_USER,
 } from "./actions";
-import axios from "axios";
 
 const user = localStorage.getItem("user");
 const token = localStorage.getItem("token");
@@ -34,6 +35,38 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  // axios.defaults.headers.common["Authorization"] = `Bearer ${state.token}`;
+  // Custom Instance instead of global setup above because that one will send the token to everywhere.
+  const authFetch = axios.create({
+    baseURL: "/api/v1/",
+  });
+
+  // Request interceptor. Similar to middleware, intercept the request before it handled by then or catch.
+  authFetch.interceptors.request.use(
+    (config) => {
+      // Add this header with token before request is sent
+      config.headers.common["Authorization"] = `Bearer ${state.token}`;
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  // Response interceptor
+  authFetch.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (error) => {
+      if (error.response.status === 401) {
+        console.log("Auth error");
+      }
+      // This is why we need interceptors, it's important. We handle 401 authentication errors programmatically.
+      return Promise.reject(error);
+    }
+  );
 
   const displayAlert = () => {
     dispatch({ type: DISPLAY_ALERT });
@@ -94,7 +127,12 @@ const AppProvider = ({ children }) => {
   };
 
   const updateUser = async (currentUser) => {
-    console.log(currentUser);
+    try {
+      const { data } = await authFetch.patch("/auth/updateUser", currentUser);
+      console.log(data);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
 
   return (

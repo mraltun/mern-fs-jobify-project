@@ -40,7 +40,7 @@ app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
 // Set the port
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 5000;
 
 // Needs to be async because "mongoose.connect" returns promise
 const start = async () => {

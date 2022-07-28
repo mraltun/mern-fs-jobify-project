@@ -8,7 +8,7 @@ const auth = async (req, res, next) => {
 
   // If there is problem with the header show error
   if (!authHeader || !authHeader.startsWith("Bearer")) {
-    throw new UnAuthenticatedError("Authentication Unvalid");
+    throw new UnAuthenticatedError("Authentication Invalid");
   }
   // Split the Bearer and the token, then take the token.
   const token = authHeader.split(" ")[1];
@@ -20,7 +20,7 @@ const auth = async (req, res, next) => {
     req.user = { userId: payload.userId };
     next();
   } catch (error) {
-    throw new UnAuthenticatedError("Authentication Iailed");
+    throw new UnAuthenticatedError("Authentication Invalid");
   }
 };
 
