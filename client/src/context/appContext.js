@@ -12,6 +12,9 @@ import {
   SETUP_USER_SUCCESS,
   TOGGLE_SIDEBAR,
   LOGOUT_USER,
+  UPDATE_USER_BEGIN,
+  UPDATE_USER_ERROR,
+  UPDATE_USER_SUCCESS,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -61,7 +64,7 @@ const AppProvider = ({ children }) => {
     },
     (error) => {
       if (error.response.status === 401) {
-        console.log("Auth error");
+        logoutUser();
       }
       // This is why we need interceptors, it's important. We handle 401 authentication errors programmatically.
       return Promise.reject(error);
@@ -126,13 +129,29 @@ const AppProvider = ({ children }) => {
     removeUserFromLocalStorage();
   };
 
+  // Update user
   const updateUser = async (currentUser) => {
+    // Loading
+    dispatch({ type: UPDATE_USER_BEGIN });
     try {
       const { data } = await authFetch.patch("/auth/updateUser", currentUser);
-      console.log(data);
+
+      const { user, location, token } = data;
+      dispatch({
+        type: UPDATE_USER_SUCCESS,
+        payload: { user, location, token },
+      });
+      addUserToLocalStorage({ user, location, token });
     } catch (error) {
-      console.log(error.response);
+      // Because we have delay, need this extra step. If it's Authentication Ivalid, don't show the error message.
+      if (error.response.status !== 401) {
+        dispatch({
+          type: UPDATE_USER_ERROR,
+          payload: { msg: error.response.data.msg },
+        });
+      }
     }
+    clearAlert();
   };
 
   return (

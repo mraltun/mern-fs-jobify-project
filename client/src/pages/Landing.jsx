@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // Import images
 import main from "../assets/images/main.svg";
 // Styles
@@ -24,7 +25,9 @@ const Landing = () => {
             sequi rem ratione magni corrupti enim eius! Incidunt ipsum
             perferendis magni.
           </p>
-          <button className='btn btn-hero'>Login/Register</button>
+          <Link to='/register' className='btn btn-hero'>
+            Login/Register
+          </Link>
         </div>
         {/* Image */}
         <img src={main} alt='job hunt' className='img main-img' />
