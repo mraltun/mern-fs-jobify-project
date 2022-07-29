@@ -15,6 +15,7 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_ERROR,
   UPDATE_USER_SUCCESS,
+  HANDLE_CHANGE,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -162,6 +163,11 @@ const AppProvider = ({ children }) => {
     clearAlert();
   };
 
+  // Get the name and value from user input and dispatch it to reducer
+  const handleChange = (name, value) => {
+    dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
+  };
+
   return (
     // Spread the values inside of state object.
     <AppContext.Provider
@@ -172,6 +178,7 @@ const AppProvider = ({ children }) => {
         toggleSidebar,
         logoutUser,
         updateUser,
+        handleChange,
       }}
     >
       {children}

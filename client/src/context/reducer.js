@@ -10,6 +10,7 @@ import {
   UPDATE_USER_BEGIN,
   UPDATE_USER_ERROR,
   UPDATE_USER_SUCCESS,
+  HANDLE_CHANGE,
 } from "./actions";
 // Import initialState for Logout
 import { initialState } from "./appContext";
@@ -111,6 +112,14 @@ const reducer = (state, action) => {
       showAlert: true,
       alertType: "danger",
       alertText: action.payload.msg,
+    };
+  }
+
+  if (action.type === HANDLE_CHANGE) {
+    return {
+      ...state,
+      // Dynamic object key which we got from user input
+      [action.payload.name]: action.payload.value,
     };
   }
 
