@@ -4,7 +4,7 @@ import { UnAuthenticatedError } from "../errors/index.js";
 // Authenticate user then next it to controller
 const auth = async (req, res, next) => {
   // Check the header
-  const authHeader = req.headers.authentication;
+  const authHeader = req.headers.authorization;
 
   // If there is problem with the header show error
   if (!authHeader || !authHeader.startsWith("Bearer")) {

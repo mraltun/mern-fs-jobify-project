@@ -59,7 +59,7 @@ const login = async (req, res) => {
 const updateUser = async (req, res) => {
   const { email, name, lastName, location } = req.body;
   // Check if any of the fields are missing
-  if (!email || !name || !lastName || location) {
+  if (!email || !name || !lastName || !location) {
     throw new BadRequestError("Please provide all values");
   }
   // Find the user whose ID matches
