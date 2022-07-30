@@ -1,3 +1,4 @@
+// Import Job model
 import Job from "../models/Job.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
@@ -16,12 +17,17 @@ const createJob = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ job });
 };
 
-const deleteJob = async (req, res) => {
-  res.send("deleteJob");
+const getAllJobs = async (req, res) => {
+  // Find all the jobs created by specific user
+  const jobs = await Job.find({ createdBy: req.user.userId });
+  res
+    .status(StatusCodes.OK)
+    // The jobs, how many of jobs and the page number
+    .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
 };
 
-const getAllJobs = async (req, res) => {
-  res.send("getAllJobs");
+const deleteJob = async (req, res) => {
+  res.send("deleteJob");
 };
 
 const updateJob = async (req, res) => {
