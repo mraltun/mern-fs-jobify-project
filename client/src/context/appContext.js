@@ -164,7 +164,7 @@ const AppProvider = ({ children }) => {
   };
 
   // Get the name and value from user input and dispatch it to reducer
-  const handleChange = (name, value) => {
+  const handleChange = ({ name, value }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
 
