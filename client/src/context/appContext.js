@@ -17,6 +17,9 @@ import {
   UPDATE_USER_SUCCESS,
   HANDLE_CHANGE,
   CLEAR_VALUES,
+  CREATE_JOB_BEGIN,
+  CREATE_JOB_SUCCESS,
+  CREATE_JOB_ERROR,
 } from "./actions";
 
 const user = localStorage.getItem("user");
@@ -169,8 +172,36 @@ const AppProvider = ({ children }) => {
     dispatch({ type: HANDLE_CHANGE, payload: { name, value } });
   };
 
+  // Clear fields in the AddJob with Clear button
   const clearValues = () => {
     dispatch({ type: CLEAR_VALUES });
+  };
+
+  const createJob = async () => {
+    dispatch({ type: CREATE_JOB_BEGIN });
+    try {
+      // Get the job info from state
+      const { position, company, jobLocation, jobType, status } = state;
+      // We are going to send job info to jobsRouter
+      await authFetch.post("/jobs", {
+        position,
+        company,
+        jobLocation,
+        jobType,
+        status,
+      });
+      // Success
+      dispatch({ type: CREATE_JOB_SUCCESS });
+      // Clear the input fields
+      dispatch({ type: CLEAR_VALUES });
+    } catch (error) {
+      if (error.response.status === 401) return;
+      dispatch({
+        type: CREATE_JOB_ERROR,
+        payload: { msg: error.response.data.msg },
+      });
+    }
+    clearAlert();
   };
 
   return (
@@ -185,6 +216,7 @@ const AppProvider = ({ children }) => {
         updateUser,
         handleChange,
         clearValues,
+        createJob,
       }}
     >
       {children}
