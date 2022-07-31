@@ -218,6 +218,7 @@ const AppProvider = ({ children }) => {
 
     dispatch({ type: GET_JOBS_BEGIN });
     try {
+      // Get the data from DB and destruct them.
       const { data } = await authFetch(url);
       const { jobs, totalJobs, numOfPages } = data;
 
@@ -230,6 +231,14 @@ const AppProvider = ({ children }) => {
       // logoutUser()
     }
     clearAlert();
+  };
+
+  const setEditJob = (id) => {
+    console.log(`set edit job : ${id}`);
+  };
+
+  const deleteJob = (id) => {
+    console.log(`delete job : ${id}`);
   };
 
   return (
@@ -246,6 +255,8 @@ const AppProvider = ({ children }) => {
         clearValues,
         createJob,
         getJobs,
+        setEditJob,
+        deleteJob,
       }}
     >
       {children}
