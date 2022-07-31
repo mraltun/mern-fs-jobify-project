@@ -26,12 +26,21 @@ const Job = ({
       <header>
         <div className='main-icon'>{company.charAt(0)}</div>
         <div className='info'>
-          <h5> {position}</h5>
+          <h5>{position}</h5>
           <p>{company}</p>
         </div>
       </header>
+
       <div className='content'>
-        {/* content center later */}
+        <div className='content-center'>
+          <JobInfo icon={<FaLocationArrow />} text={jobLocation} />
+          <JobInfo icon={<FaCalendarAlt />} text={date} />
+          <JobInfo icon={<FaBriefcase />} text={jobType} />
+
+          {/* Change css with status (pending, declined and interview) */}
+          <div className={`status ${status}`}>{status}</div>
+        </div>
+
         <footer>
           <div className='actions'>
             <Link
@@ -41,6 +50,7 @@ const Job = ({
             >
               Edit
             </Link>
+
             <button
               type='button'
               className='btn delete-btn'
