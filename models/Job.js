@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-// The structure for the Jon model
+// The structure for the Job model
 const JobSchema = new mongoose.Schema(
   {
     company: {

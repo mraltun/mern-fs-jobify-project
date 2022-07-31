@@ -24,6 +24,7 @@ import {
   GET_JOBS_SUCCESS,
 } from "./actions";
 
+// Check if user already in the local storage. Global variables for the initial state
 const user = localStorage.getItem("user");
 const token = localStorage.getItem("token");
 const userLocation = localStorage.getItem("location");
@@ -102,14 +103,14 @@ const AppProvider = ({ children }) => {
     }, 2000);
   };
 
-  // Add to local storage
+  // Add user to local storage
   const addUserToLocalStorage = ({ user, token, location }) => {
     localStorage.setItem("user", JSON.stringify(user));
     localStorage.setItem("token", token);
     localStorage.setItem("location", location);
   };
 
-  // Remove from local storage
+  // Remove user from local storage
   const removeUserFromLocalStorage = () => {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
@@ -129,6 +130,7 @@ const AppProvider = ({ children }) => {
         type: SETUP_USER_SUCCESS,
         payload: { user, token, location, alertText },
       });
+
       addUserToLocalStorage({ user, token, location });
     } catch (error) {
       dispatch({
@@ -225,6 +227,7 @@ const AppProvider = ({ children }) => {
       });
     } catch (error) {
       console.log(error.response);
+      // logoutUser()
     }
     clearAlert();
   };
