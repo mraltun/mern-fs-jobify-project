@@ -22,6 +22,7 @@ import {
   CREATE_JOB_ERROR,
   GET_JOBS_BEGIN,
   GET_JOBS_SUCCESS,
+  SET_EDIT_JOB,
 } from "./actions";
 
 // Check if user already in the local storage. Global variables for the initial state
@@ -29,7 +30,7 @@ const user = localStorage.getItem("user");
 const token = localStorage.getItem("token");
 const userLocation = localStorage.getItem("location");
 
-// Initial states for the global state
+// Initial states for the global state. We add some editing job values here so we can use them for both adding and editing jobs.
 const initialState = {
   isLoading: false,
   showAlert: false,
@@ -234,7 +235,11 @@ const AppProvider = ({ children }) => {
   };
 
   const setEditJob = (id) => {
-    console.log(`set edit job : ${id}`);
+    dispatch({ type: SET_EDIT_JOB, payload: { id } });
+  };
+
+  const editJob = () => {
+    console.log(`edit job`);
   };
 
   const deleteJob = (id) => {
@@ -257,6 +262,7 @@ const AppProvider = ({ children }) => {
         getJobs,
         setEditJob,
         deleteJob,
+        editJob,
       }}
     >
       {children}
