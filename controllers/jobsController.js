@@ -26,14 +26,40 @@ const getAllJobs = async (req, res) => {
     .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
 };
 
+const updateJob = async (req, res) => {
+  // Get the id from url ("/:id" route) and give "jobId" alias
+  const { id: jobId } = req.params;
+  const { company, position } = req.body;
+
+  if (!company || !position) {
+    throw new BadRequestError("Please Provide All Values");
+  }
+
+  // Get the id whose match with jobId
+  const job = await Job.findOne({ _id: jobId });
+
+  if (!job) {
+    throw new NotFoundError(`No job with id: ${jobId}`);
+  }
+
+  // Permissions
+
+  // Update the job with all the info inside body, then return the updated job. findOneAndUpdate won't trigger hooks
+  const updatedJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, {
+    new: true,
+    runValidators: true,
+  });
+
+  // Alternative way, this will trigger the save hooks. You need to destruct more properties from the body above
+  // job.position = position;
+  // await job.save();
+
+  res.status(StatusCodes.OK).json({ updatedJob });
+};
+
 const deleteJob = async (req, res) => {
   res.send("deleteJob");
 };
-
-const updateJob = async (req, res) => {
-  res.send("updateJob");
-};
-
 const showStats = async (req, res) => {
   res.send("showStats");
 };
