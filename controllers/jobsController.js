@@ -2,6 +2,7 @@
 import Job from "../models/Job.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
+import checkPermissions from "../utils/checkPermissions.js";
 
 // Create job
 const createJob = async (req, res) => {
@@ -42,7 +43,8 @@ const updateJob = async (req, res) => {
     throw new NotFoundError(`No job with id: ${jobId}`);
   }
 
-  // Permissions
+  // Permissions.  We pass entire user object so that we can check if there is "admin" role
+  checkPermissions(req.user, job.createdBy);
 
   // Update the job with all the info inside body, then return the updated job. findOneAndUpdate won't trigger hooks
   const updatedJob = await Job.findOneAndUpdate({ _id: jobId }, req.body, {
