@@ -18,6 +18,7 @@ import {
   GET_JOBS_BEGIN,
   GET_JOBS_SUCCESS,
   SET_EDIT_JOB,
+  DELETE_JOB_BEGIN,
 } from "./actions";
 // Import initialState for Logout
 import { initialState } from "./appContext";
@@ -204,6 +205,13 @@ const reducer = (state, action) => {
       company,
       jobLocation,
       jobType,
+    };
+  }
+
+  if (action.type === DELETE_JOB_BEGIN) {
+    return {
+      ...state,
+      isLoading: true,
     };
   }
 

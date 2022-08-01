@@ -23,6 +23,7 @@ import {
   GET_JOBS_BEGIN,
   GET_JOBS_SUCCESS,
   SET_EDIT_JOB,
+  DELETE_JOB_BEGIN,
 } from "./actions";
 
 // Check if user already in the local storage. Global variables for the initial state
@@ -242,8 +243,15 @@ const AppProvider = ({ children }) => {
     console.log(`edit job`);
   };
 
-  const deleteJob = (id) => {
-    console.log(`delete job : ${id}`);
+  const deleteJob = async (jobId) => {
+    dispatch({ type: DELETE_JOB_BEGIN });
+    try {
+      await authFetch.delete(`/jobs/${jobId}`);
+      // Get the latest jobs from DB after we delete certain job
+      getJobs();
+    } catch (error) {
+      logoutUser();
+    }
   };
 
   return (
