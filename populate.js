@@ -1,5 +1,6 @@
 ///////////////////////////////////////////
 /// Add "mock-data.json" to DB
+/// Change "createdBy" id with your current id before upload it
 ///////////////////////////////////////////
 
 // Import the one that returns promise, not the default callback one
