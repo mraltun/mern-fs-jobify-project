@@ -3,6 +3,7 @@ import Job from "../models/Job.js";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
+import mongoose from "mongoose";
 
 // Create job
 const createJob = async (req, res) => {
@@ -75,7 +76,24 @@ const deleteJob = async (req, res) => {
 };
 
 const showStats = async (req, res) => {
-  res.send("showStats");
+  // Aggregation pipeline is series of steps. Stats in here is an array with objects for each status and it's count
+  let stats = await Job.aggregate([
+    // Get the every jobs that created by specific user. userId is string so we use ObjectId
+    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    // Group the jobs by status value (pending, interview etc..) and how many of them in there.
+    { $group: { _id: "$status", count: { $sum: 1 } } },
+  ]);
+
+  // Make stats an object with status and count
+  stats = stats.reduce((acc, curr) => {
+    // Get the id as title and count
+    const { _id: title, count } = curr;
+    // Dynamic Key
+    acc[title] = count;
+    return acc;
+  }, {});
+
+  res.status(StatusCodes.OK).json({ stats });
 };
 
 export { createJob, deleteJob, getAllJobs, showStats, updateJob };
