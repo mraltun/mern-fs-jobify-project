@@ -27,6 +27,8 @@ import {
   EDIT_JOB_BEGIN,
   EDIT_JOB_ERROR,
   EDIT_JOB_SUCCESS,
+  SHOW_STATS_BEGIN,
+  SHOW_STATS_SUCCESS,
 } from "./actions";
 
 // Check if user already in the local storage. Global variables for the initial state
@@ -57,6 +59,8 @@ const initialState = {
   totalJobs: 0,
   numOfPages: 1,
   page: 1,
+  stats: {},
+  monthlyApplications: [],
 };
 
 const AppContext = createContext();
@@ -223,7 +227,7 @@ const AppProvider = ({ children }) => {
 
     dispatch({ type: GET_JOBS_BEGIN });
     try {
-      // Get the data from DB and destruct them.
+      // Get the data from DB and destruct them. Default is .get
       const { data } = await authFetch(url);
       const { jobs, totalJobs, numOfPages } = data;
 
@@ -280,6 +284,26 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const showStats = async () => {
+    dispatch({ type: SHOW_STATS_BEGIN });
+
+    try {
+      const { data } = await authFetch("/jobs/stats");
+
+      dispatch({
+        type: SHOW_STATS_SUCCESS,
+        payload: {
+          stats: data.defaultStats,
+          monthlyApplications: data.monthlyApplications,
+        },
+      });
+    } catch (error) {
+      console.log(error.response);
+      logoutUser();
+    }
+    clearAlert();
+  };
+
   return (
     // Spread the values inside of state object.
     <AppContext.Provider
@@ -297,6 +321,7 @@ const AppProvider = ({ children }) => {
         setEditJob,
         deleteJob,
         editJob,
+        showStats,
       }}
     >
       {children}
