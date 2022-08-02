@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
 import checkPermissions from "../utils/checkPermissions.js";
 import mongoose from "mongoose";
+import moment from "moment";
 
 // Create job
 const createJob = async (req, res) => {
@@ -111,8 +112,26 @@ const showStats = async (req, res) => {
     },
     // Sort them with latest job first
     { $sort: { "_id.year": -1, "_id.month": -1 } },
+    // Latest 6 months
     { $limit: 6 },
   ]);
+
+  monthlyApplications = monthlyApplications
+    .map((item) => {
+      const {
+        _id: { year, month },
+        count,
+      } = item;
+      // moment counts months 0-11 while MongoDB 1-12
+      const date = moment()
+        .month(month - 1)
+        .year(year)
+        .format("MMM Y");
+
+      return { date, count };
+    })
+    // Show the oldest month instead latest one
+    .reverse();
 
   res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
