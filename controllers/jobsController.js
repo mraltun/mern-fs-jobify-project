@@ -106,13 +106,16 @@ const showStats = async (req, res) => {
     {
       // Group the jobs per year and per month. Also count how many jobs "created" at which month and which year
       $group: {
-        _id: { year: { $year: "$createdAt" }, month: { $month: "createdAt" } },
+        _id: {
+          year: { $year: "$createdAt" },
+          month: { $month: "$createdAt" },
+        },
         count: { $sum: 1 },
       },
     },
     // Sort them with latest job first
     { $sort: { "_id.year": -1, "_id.month": -1 } },
-    // Latest 6 months
+    // Last 6 months
     { $limit: 6 },
   ]);
 
@@ -127,7 +130,6 @@ const showStats = async (req, res) => {
         .month(month - 1)
         .year(year)
         .format("MMM Y");
-
       return { date, count };
     })
     // Show the oldest month instead latest one

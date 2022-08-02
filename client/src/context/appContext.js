@@ -93,7 +93,7 @@ const AppProvider = ({ children }) => {
     },
     (error) => {
       if (error.response.status === 401) {
-        logoutUser();
+        // logoutUser();
       }
       // This is why we need interceptors, it's important. We handle 401 authentication errors programmatically.
       return Promise.reject(error);
@@ -280,7 +280,7 @@ const AppProvider = ({ children }) => {
       // Get the latest jobs from DB after we delete certain job
       getJobs();
     } catch (error) {
-      logoutUser();
+      // logoutUser();
     }
   };
 
@@ -299,7 +299,7 @@ const AppProvider = ({ children }) => {
       });
     } catch (error) {
       console.log(error.response);
-      logoutUser();
+      // logoutUser();
     }
     clearAlert();
   };
