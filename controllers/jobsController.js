@@ -21,8 +21,21 @@ const createJob = async (req, res) => {
 };
 
 const getAllJobs = async (req, res) => {
+  // Query string parameters
+  const { search, status, jobType, sort } = req.query;
+  const queryObject = {
+    createdBy: req.user.userId,
+  };
+
+  // If it's interview, declined or pending match the status
+  if (status !== "all") {
+    queryObject.status = status;
+  }
+
   // Find all the jobs created by specific user
-  const jobs = await Job.find({ createdBy: req.user.userId });
+  let result = Job.find(queryObject);
+
+  const jobs = await result;
   res
     .status(StatusCodes.OK)
     // The jobs, how many of jobs and the page number
