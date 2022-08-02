@@ -34,8 +34,9 @@ const StatsContainer = () => {
 
   return (
     <Wrapper>
-      StatsContainer
-      <StatItem />
+      {defaultStats.map((item, index) => {
+        return <StatItem key={index} {...item} />;
+      })}
     </Wrapper>
   );
 };
