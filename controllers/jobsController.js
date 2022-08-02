@@ -93,14 +93,26 @@ const showStats = async (req, res) => {
     return acc;
   }, {});
 
-  // If the user doesn't have any stats, at least show them stats with 0 instead nothing
+  // If the user doesn't have any stats, at least show them stats with 0 values instead nothing
   const defaultStats = {
     pending: stats.pending || 0,
     interview: stats.interview || 0,
     declined: stats.declined || 0,
   };
 
-  let monthlyApplications = [];
+  let monthlyApplications = await Job.aggregate([
+    { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+    {
+      // Group the jobs per year and per month. Also count how many jobs "created" at which month and which year
+      $group: {
+        _id: { year: { $year: "$createdAt" }, month: { $month: "createdAt" } },
+        count: { $sum: 1 },
+      },
+    },
+    // Sort them with latest job first
+    { $sort: { "_id.year": -1, "_id.month": -1 } },
+    { $limit: 6 },
+  ]);
 
   res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications });
 };
