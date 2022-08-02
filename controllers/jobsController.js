@@ -28,12 +28,12 @@ const getAllJobs = async (req, res) => {
   };
 
   // If it's interview, declined or pending match the status
-  if (status !== "all") {
+  if (status && status !== "all") {
     queryObject.status = status;
   }
 
   // If it's full-time, part-time, remote or internship match the jobType
-  if (jobType !== "all") {
+  if (jobType & (jobType !== "all")) {
     queryObject.jobType = jobType;
   }
 
