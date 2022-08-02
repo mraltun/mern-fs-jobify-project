@@ -32,8 +32,35 @@ const getAllJobs = async (req, res) => {
     queryObject.status = status;
   }
 
+  // If it's full-time, part-time, remote or internship match the jobType
+  if (jobType !== "all") {
+    queryObject.jobType = jobType;
+  }
+
+  // MongoDB search functionality, "i" option means case insensitive
+  if (search) {
+    queryObject.position = { $regex: search, $options: "i" };
+  }
+
   // Find all the jobs created by specific user
   let result = Job.find(queryObject);
+
+  // Chain sort conditions. "-" means descending
+  if (sort === "latest") {
+    result = result.sort("-createdAt");
+  }
+
+  if (sort === "oldest") {
+    result = result.sort("createdAt");
+  }
+
+  if (sort === "a-z") {
+    result = result.sort("position");
+  }
+
+  if (sort === "z-a") {
+    result = result.sort("-position");
+  }
 
   const jobs = await result;
   res
