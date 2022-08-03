@@ -24,6 +24,7 @@ const JobsContainer = () => {
   // Get the jobs on initial load and update when we change anything in search related fields
   useEffect(() => {
     getJobs();
+    // eslint-disable-next-line
   }, [page, search, searchStatus, searchType, sort]);
 
   if (isLoading) {
