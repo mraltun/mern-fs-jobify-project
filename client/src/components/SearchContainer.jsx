@@ -23,6 +23,11 @@ const SearchContainer = () => {
     handleChange({ name: e.target.name, value: e.target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    clearFilters();
+  };
+
   return (
     <Wrapper>
       <form className='form'>
@@ -34,8 +39,38 @@ const SearchContainer = () => {
             name='search'
             value={search}
             handleChange={handleSearch}
-          ></FormRow>
-          {/* rest of the inputs */}
+          />
+          {/* search by status */}
+          <FormRowSelect
+            labelText='status'
+            name='searchStatus'
+            value={searchStatus}
+            handleChange={handleSearch}
+            // Add "all" to rest of the options
+            list={["all", ...statusOptions]}
+          />
+          {/* search by type */}
+          <FormRowSelect
+            labelText='type'
+            name='searchType'
+            value={searchType}
+            handleChange={handleSearch}
+            list={["all", ...jobTypeOptions]}
+          />
+          {/* sort */}
+          <FormRowSelect
+            name='sort'
+            value={sort}
+            handleChange={handleSearch}
+            list={sortOptions}
+          />
+          <button
+            className='btn btn-block btn-danger'
+            disabled={isLoading}
+            onClick={handleSubmit}
+          >
+            clear filters
+          </button>
         </div>
       </form>
     </Wrapper>
