@@ -62,11 +62,24 @@ const getAllJobs = async (req, res) => {
     result = result.sort("-position");
   }
 
+  // Setup Pagination. They both query parameters strings so we need to turn them to numbers. By default 10 jobs per page
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 10;
+  // If you are on page 6, skips 5 pages and 50 jobs
+  const skip = (page - 1) * limit;
+  // How many documents to skip and how many to show
+  result = result.skip(skip).limit(limit);
+
   const jobs = await result;
+
+  // Get the total number of the jobs in that specific query. The divide it to limit (10) to find total number of pages
+  const totalJobs = await Job.countDocuments(queryObject);
+  const numOfPages = Math.ceil(totalJobs / limit);
+
   res
     .status(StatusCodes.OK)
     // The jobs, how many of jobs and the page number
-    .json({ jobs, totalJobs: jobs.length, numOfPages: 1 });
+    .json({ jobs, totalJobs, numOfPages });
 };
 
 const updateJob = async (req, res) => {
