@@ -30,6 +30,7 @@ import {
   SHOW_STATS_BEGIN,
   SHOW_STATS_SUCCESS,
   CLEAR_FILTERS,
+  CHANGE_PAGE,
 } from "./actions";
 
 // Check if user already in the local storage. Global variables for the initial state
@@ -321,6 +322,10 @@ const AppProvider = ({ children }) => {
     dispatch({ type: CLEAR_FILTERS });
   };
 
+  const changePage = (page) => {
+    dispatch({ type: CHANGE_PAGE, payload: { page } });
+  };
+
   return (
     // Spread the values inside of state object.
     <AppContext.Provider
@@ -340,6 +345,7 @@ const AppProvider = ({ children }) => {
         editJob,
         showStats,
         clearFilters,
+        changePage,
       }}
     >
       {children}
