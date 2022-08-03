@@ -3,6 +3,7 @@ import { useAppContext } from "../context/appContext";
 // Import components
 import Loading from "./Loading";
 import Job from "./Job";
+import PageBtnContainer from "./PageBtnContainer";
 // Import styles
 import Wrapper from "../assets/wrappers/JobsContainer";
 
@@ -17,6 +18,7 @@ const JobsContainer = () => {
     searchStatus,
     searchType,
     sort,
+    numOfPages,
   } = useAppContext();
 
   // Get the jobs on initial load and update when we change anything in search related fields
@@ -43,7 +45,7 @@ const JobsContainer = () => {
           return <Job key={job._id} {...job} />;
         })}
       </div>
-      {/* pagination buttons */}
+      {numOfPages > 1 && <PageBtnContainer />}
     </Wrapper>
   );
 };
