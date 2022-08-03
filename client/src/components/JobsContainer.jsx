@@ -24,7 +24,7 @@ const JobsContainer = () => {
   // Get the jobs on initial load and update when we change anything in search related fields
   useEffect(() => {
     getJobs();
-  }, [search, searchStatus, searchType, sort]);
+  }, [page, search, searchStatus, searchType, sort]);
 
   if (isLoading) {
     return <Loading center />;

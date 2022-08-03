@@ -133,6 +133,8 @@ const reducer = (state, action) => {
   if (action.type === HANDLE_CHANGE) {
     return {
       ...state,
+      // Always start with the first page
+      page: 1,
       // Dynamic object key which we got from user input
       [action.payload.name]: action.payload.value,
     };

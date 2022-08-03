@@ -13,9 +13,23 @@ const PageBtnContainer = () => {
     return index + 1;
   });
 
-  const nextPage = () => {};
+  const prevPage = () => {
+    let newPage = page - 1;
+    // If the page is the first page, go back to last page
+    if (newPage < 1) {
+      newPage = numOfPages;
+    }
+    changePage(newPage);
+  };
 
-  const prevPage = () => {};
+  const nextPage = () => {
+    let newPage = page + 1;
+    // If the page is the last page, go back to first page
+    if (newPage > numOfPages) {
+      newPage = 1;
+    }
+    changePage(newPage);
+  };
 
   return (
     <Wrapper>

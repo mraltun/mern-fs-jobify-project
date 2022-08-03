@@ -230,9 +230,9 @@ const AppProvider = ({ children }) => {
 
   const getJobs = async () => {
     // Get the query strings from state
-    const { search, searchStatus, searchType, sort } = state;
+    const { page, search, searchStatus, searchType, sort } = state;
     // Add query string parameters to default url
-    let url = `/jobs?status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
+    let url = `/jobs?page=${page}&status=${searchStatus}&jobType=${searchType}&sort=${sort}`;
 
     // Add the search to url only if it's not empty
     if (search) {
